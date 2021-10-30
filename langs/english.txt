@@ -41,7 +41,7 @@ hundreds 5 = "thousand"
 hundreds 6 = "millions"
 hundreds 7 = "billions"
 
-out_range_err 0 = "THE NUMBER IS BIGGER THAN \\\\\\\\\UN MILIARDO CENTO NOVE MILIONI NOVE CENTO NOVANTA NOVE MILA NOVE CENTO NOVANTA NOVE.\\\\\\\\\\ IT COULD LEAD TO BUGS!"
+out_range_err 0 = "THE NUMBER IS BIGGER THAN  A BILLION A HUNDRED NINE MILLIONS NINE HUNDRED NINETY NINE THOUSAND NINE HUNDRED  NINETY NINE IT COULD LEAD TO BUGS!"
 nan_err 0 = "Wait"
 nan_err 1 = "is not a number..."
 insert_num 0 = "Please insert a number:"
