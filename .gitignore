@@ -1,3 +1,4 @@
 *.o
 numstr
 .vscode
+*.exe
