@@ -37,21 +37,21 @@ int load_lang(const char *file_name)
 		int index = 0;
 		sscanf(buffer, "%s %i = \"%[^\"]", var_name, &index, value);
 		if (strcmp(var_name, "zero") == 0)
-			sprintf(digits.zero, "%s", value);
+			sprintf(digits.zero, "%s-", value);
 		else if (strcmp(var_name, "ones") == 0)
 		{
 			digits.ones[index] = malloc(strlen(value));
-			sprintf(digits.ones[index], "%s ", value);
+			sprintf(digits.ones[index], "%s-", value);
 		}
 		else if (strcmp(var_name, "tens") == 0)
 		{
 			digits.tens[index] = malloc(strlen(value));
-			sprintf(digits.tens[index], "%s ", value);
+			sprintf(digits.tens[index], "%s-", value);
 		}
 		else if (strcmp(var_name, "hundreds") == 0)
 		{
 			digits.hundreds[index] = malloc(strlen(value));
-			sprintf(digits.hundreds[index], "%s ", value);
+			sprintf(digits.hundreds[index], "%s-", value);
 		}
 		else if (strcmp(var_name, "out_range_err") == 0)
 		{
@@ -77,6 +77,7 @@ int load_lang(const char *file_name)
 char *digit_to_word(int num, char *plus_str)
 {
 	char *str = malloc(2048);
+	sprintf(str, "\b"); // without this line the output will have some random characters in the beginning and I don't know why
 	if (num > 19)
 	{
 		strcat(str, digits.tens[num / 10]);
@@ -92,7 +93,7 @@ char *digit_to_word(int num, char *plus_str)
 char *num_to_word(long int num)
 {
 	char *str = malloc(2048);
-	sprintf(str, ""); // without this line the output will have some random characters in the beginning and I don't know why
+	sprintf(str, "\b"); // without this line the output will have some random characters in the beginning and I don't know why
 
 	if (num == 0)
 	{
@@ -130,6 +131,7 @@ char *num_to_word(long int num)
 	else if ((num / 100) % 10)
 		strcat(str, digit_to_word(((num / 100) % 10), digits.hundreds[4]));
 	strcat(str, digit_to_word((num % 100), ""));
+	str[strlen(str) - 1] = 0;
 
 	return str;
 }
@@ -151,7 +153,7 @@ int main(int argc, char **argv)
 	fscanf(stdin, "%s", user_input);
 	if (sscanf(user_input, "%li", &num) == 0)
 	{
-		fprintf(stderr, "%s\"%s\" %s", UI.nan_err[0], user_input, UI.nan_err[1]);
+		fprintf(stderr, "%s\"%s\" %s\n", UI.nan_err[0], user_input, UI.nan_err[1]);
 		return -1;
 	}
 	if (num > 1109999999)
