@@ -77,7 +77,7 @@ int load_lang(const char *file_name)
 char *digit_to_word(int num, char *plus_str)
 {
 	char *str = malloc(2048);
-	sprintf(str, "\b"); // without this line the output will have some random characters in the beginning and I don't know why
+	sprintf(str, " \b"); // without this line the output will have some random characters in the beginning and I don't know why
 	if (num > 19)
 	{
 		strcat(str, digits.tens[num / 10]);
@@ -93,7 +93,7 @@ char *digit_to_word(int num, char *plus_str)
 char *num_to_word(long int num)
 {
 	char *str = malloc(2048);
-	sprintf(str, "\b"); // without this line the output will have some random characters in the beginning and I don't know why
+	sprintf(str, " \b"); // without this line the output will have some random characters in the beginning and I don't know why
 
 	if (num == 0)
 	{
