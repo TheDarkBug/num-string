@@ -1,6 +1,4 @@
-*.o
-numstr_*
-numstr
-.vscode
-*.exe
-*.gz
+*.lock
+target
+*\~*
+
