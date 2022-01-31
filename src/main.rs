@@ -103,11 +103,16 @@ fn separate_nums(src: &String, ui: &Ui) -> Vec<u128> {
     let mut num_s = String::new();
     for i in (0..src_len).rev() {
         // put a single digit (actually a char that should contain a digit) in the temporary string
-        num_s.push_str(&format!("{}", src.chars().rev().nth(i).unwrap()));
-        // every 3 characters, push the string to the array and empty it
-        if i % 3 == 0 {
-            numv.push(str_u128(&num_s, &ui.nan_err));
-            num_s = String::new();
+        // put it in the string only if it is not a whitespace
+        let cur_ch = src.chars().rev().nth(i).unwrap();
+        if !cur_ch.is_whitespace() {
+            num_s.push_str(&format!("{}", cur_ch));
+            // every 3 characters, push the string to the array and empty it
+            // but if a whitespace was found, do nothing
+            if i % 3 == 0 {
+                numv.push(str_u128(&num_s, &ui.nan_err));
+                num_s = String::new();
+            }
         }
     }
     return numv;
@@ -150,7 +155,15 @@ fn convert(digits: Digits, ui: &Ui, numv: Vec<u128>) -> String {
         }
         // 3 digits weight
         if num_count - i > 1 {
-            result += &format!("{} ", digits.hundreds[(num_count - i - 1) as usize]);
+            let weight = num_count - i - 1;
+            if weight < 4 {
+                result += &format!("{} ", digits.hundreds[weight % 4]);
+            } else {
+                println!("W: {}", weight / 3);
+                for j in 0..(weight / 4) + 1 {
+                    result += &format!("{} ", digits.hundreds[weight % 4]);
+                }
+            }
         }
     }
     return result;
