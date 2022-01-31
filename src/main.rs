@@ -160,7 +160,7 @@ fn convert(digits: Digits, ui: &Ui, numv: Vec<u128>) -> String {
                 result += &format!("{} ", digits.hundreds[weight % 4]);
             } else {
                 println!("W: {}", weight / 3);
-                for j in 0..(weight / 4) + 1 {
+                for _ in 0..(weight / 4) + 1 {
                     result += &format!("{} ", digits.hundreds[weight % 4]);
                 }
             }
