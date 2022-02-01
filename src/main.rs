@@ -1,3 +1,4 @@
+use getopts::Options;
 use std::fs::File;
 use std::io::{stdin, stdout, Read, Write};
 extern crate sscanf;
@@ -118,7 +119,7 @@ fn separate_nums(src: &String, ui: &Ui) -> Vec<u128> {
     return numv;
 }
 
-fn convert(digits: Digits, ui: &Ui, numv: Vec<u128>) -> String {
+fn convert(digits: &Digits, ui: &Ui, numv: Vec<u128>) -> String {
     // write "zero" only if the whole number is actually 0
     if numv.len() == 1 && numv[0] == 0 {
         return format!("{}", digits.ones[0]);
@@ -159,7 +160,6 @@ fn convert(digits: Digits, ui: &Ui, numv: Vec<u128>) -> String {
             if weight < 4 {
                 result += &format!("{} ", digits.hundreds[weight % 4]);
             } else {
-                println!("W: {}", weight / 3);
                 for _ in 0..(weight / 4) + 1 {
                     result += &format!("{} ", digits.hundreds[weight % 4]);
                 }
@@ -177,17 +177,42 @@ fn read_lang_file(name: String) -> String {
     return content;
 }
 
+// prints the usage
+fn usage(program: &str, opts: Options) {
+    print!("{}", opts.usage(&format!("Usage: {} [options]", program)));
+}
+
 fn main() {
-    // get eventual language file name
+    // get command line options
     let argv: Vec<String> = std::env::args().collect();
-    let lang: String;
-    if argv.len() < 2 {
-        // default language
-        lang = read_lang_file(String::from("langs/english.txt"));
-    } else {
-        // argument language
-        lang = read_lang_file(argv[1].clone());
+    let mut opts = Options::new();
+    opts.optflag("h", "help", "prints this help message");
+    opts.optopt("l", "lang", "set language file", "FILE");
+    opts.optopt("o", "out", "set output file", "FILE");
+    let matches = match opts.parse(&argv[1..]) {
+        Ok(m) => m,
+        Err(f) => panic!("{}", f.to_string()),
+    };
+    if matches.opt_present("help") {
+        usage(&argv[0], opts);
+        return;
     }
+    // get language file name option (or default)
+    let lang: String;
+    let lang_file_name: String;
+    if matches.opt_present("lang") {
+        match matches.opt_str("l") {
+            Some(x) => lang_file_name = String::from(x.as_str()),
+            None => {
+                eprintln!("Error: language file was not provided!");
+                std::process::exit(1); // exit with error
+            }
+        }
+    } else {
+        // default language file name
+        lang_file_name = String::from("langs/english.txt");
+    }
+    lang = read_lang_file(lang_file_name);
     // load the language
     let ui = Ui::new(&lang);
     let digits = Digits::new(&lang);
@@ -198,5 +223,23 @@ fn main() {
     stdin().read_line(&mut user_input).expect("");
     // remove the '\n' from the input
     user_input.remove(user_input.len() - 1);
-    println!("{}", convert(digits, &ui, separate_nums(&user_input, &ui)));
+    if matches.opt_present("out") {
+        match matches.opt_str("o") {
+            Some(x) => {
+                if !(x == "stdout" || x == "/dev/stdout") {
+                    writeln!(
+                        File::create(&x).expect(&format!("Failed to open {}: {0}", &x)),
+                        "{}",
+                        convert(&digits, &ui, separate_nums(&user_input, &ui))
+                    )
+                    .expect(&format!("Failed to write to {}!", &x));
+                    return;
+                }
+            }
+
+            None => {}
+        }
+    } else {
+        println!("{}", convert(&digits, &ui, separate_nums(&user_input, &ui)));
+    }
 }
