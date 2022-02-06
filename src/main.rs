@@ -3,7 +3,11 @@ use std::fs::File;
 use std::io::{stdin, stdout, Write};
 mod conversion;
 use conversion::*;
-// prints the usage
+mod interface;
+use interface::*;
+mod graphics;
+use graphics::*;
+
 fn usage(program: &str, opts: Options) {
     print!("{}", opts.usage(&format!("Usage: {} [options]", program)));
 }
@@ -15,6 +19,7 @@ fn main() {
     opts.optflag("h", "help", "prints this help message");
     opts.optopt("l", "lang", "set language file", "FILE");
     opts.optopt("o", "out", "set output file", "FILE");
+    opts.optflag("g", "no-graphics", "use only terminal interface");
     let matches = match opts.parse(&argv[1..]) {
         Ok(m) => m,
         Err(f) => panic!("{}", f.to_string()),
@@ -23,49 +28,98 @@ fn main() {
         usage(&argv[0], opts);
         return;
     }
-    // get language file name option (or default)
-    let lang: String;
-    let lang_file_name: String;
-    if matches.opt_present("lang") {
-        match matches.opt_str("l") {
-            Some(x) => lang_file_name = String::from(x.as_str()),
-            None => {
-                eprintln!("Error: language file was not provided!");
-                std::process::exit(1); // exit with error
-            }
-        }
-    } else {
-        // default language file name
-        lang_file_name = String::from("langs/english.txt");
-    }
-    lang = read_lang_file(lang_file_name);
-    // load the language
-    let ui = Ui::new(&lang);
-    let digits = Digits::new(&lang);
-    // get user input
-    print!("{} ", ui.insert_num);
-    stdout().flush().expect("");
-    let mut user_input = String::new();
-    stdin().read_line(&mut user_input).expect("");
-    // remove the '\n' from the input
-    user_input.remove(user_input.len() - 1);
-    if matches.opt_present("out") {
-        match matches.opt_str("o") {
-            Some(x) => {
-                if !(x == "stdout" || x == "/dev/stdout") {
-                    writeln!(
-                        File::create(&x).expect(&format!("Failed to open {}: {0}", &x)),
-                        "{}",
-                        convert(&digits, &ui, separate_nums(&user_input, &ui))
-                    )
-                    .expect(&format!("Failed to write to {}!", &x));
-                    return;
+    // run tui version only if gui disabled
+    if matches.opt_present("no-graphics") {
+        // get language file name option (or default)
+        let lang: String;
+        let lang_file_name: String;
+        if matches.opt_present("lang") {
+            match matches.opt_str("l") {
+                Some(x) => lang_file_name = String::from(x.as_str()),
+                None => {
+                    eprintln!("Error: language file was not provided!");
+                    std::process::exit(1); // exit with error
                 }
             }
+        } else {
+            // default language file name
+            lang_file_name = String::from("langs/english.txt");
+        }
+        lang = read_lang_file(lang_file_name);
+        // load the language
+        let ui = Ui::new(&lang);
+        let digits = Digits::new(&lang);
+        // get user input
+        print!("{} ", ui.insert_num);
+        stdout().flush().expect("");
+        let mut user_input = String::new();
+        stdin().read_line(&mut user_input).expect("");
+        // remove the '\n' from the input
+        user_input.remove(user_input.len() - 1);
+        if matches.opt_present("out") {
+            match matches.opt_str("o") {
+                Some(x) => {
+                    if !(x == "stdout" || x == "/dev/stdout") {
+                        writeln!(
+                            File::create(&x).expect(&format!("Failed to open {}: {0}", &x)),
+                            "{}",
+                            convert(&digits, &ui, separate_nums(&user_input, &ui))
+                        )
+                        .expect(&format!("Failed to write to {}!", &x));
+                        return;
+                    }
+                }
 
-            None => {}
+                None => {}
+            }
+        } else {
+            println!("{}", convert(&digits, &ui, separate_nums(&user_input, &ui)));
         }
     } else {
-        println!("{}", convert(&digits, &ui, separate_nums(&user_input, &ui)));
+        // get language file name option (or default)
+        let lang: String;
+        let lang_file_name: String;
+        if matches.opt_present("lang") {
+            match matches.opt_str("l") {
+                Some(x) => lang_file_name = String::from(x.as_str()),
+                None => {
+                    eprintln!("Error: language file was not provided!");
+                    std::process::exit(1); // exit with error
+                }
+            }
+        } else {
+            // default language file name
+            lang_file_name = String::from("langs/english.txt");
+        }
+        lang = read_lang_file(lang_file_name);
+        // load the language
+        let ui = Ui::new(&lang);
+        let digits = Digits::new(&lang);
+        // get user input
+        // print!("{} ", ui.insert_num);
+        // stdout().flush().expect("");
+        graphics::run(ui.clone(), digits.clone());
+        // stdin().read_line(&mut user_input).expect("");
+        // // remove the '\n' from the input
+        // user_input.remove(user_input.len() - 1);
+        // if matches.opt_present("out") {
+        //     match matches.opt_str("o") {
+        //         Some(x) => {
+        //             if !(x == "stdout" || x == "/dev/stdout") {
+        //                 writeln!(
+        //                     File::create(&x).expect(&format!("Failed to open {}: {0}", &x)),
+        //                     "{}",
+        //                     convert(&digits, &ui, separate_nums(&user_input, &ui))
+        //                 )
+        //                 .expect(&format!("Failed to write to {}!", &x));
+        //                 return;
+        //             }
+        //         }
+
+        //         None => {}
+        //     }
+        // } else {
+        //     println!("{}", convert(&digits, &ui, separate_nums(&user_input, &ui)));
+        // }
     }
 }
