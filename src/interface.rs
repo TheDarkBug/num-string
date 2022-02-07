@@ -4,7 +4,6 @@ use std::io::Read;
 
 #[derive(Clone, Debug)]
 pub struct Ui {
-	pub nan_err: [String; 2],
 	pub insert_num: String,
 	pub convert_btn: String,
 	pub clear_btn: String,
@@ -20,10 +19,6 @@ pub struct Digits {
 impl Ui {
 	pub fn new(src: &str) -> Self {
 		let lines = src.split("\n");
-		let mut ne = [
-			String::from("nan_err 0 not set!"),
-			String::from("nan_err 1 not set!"),
-		];
 		let mut cvtb = String::from("convert_btn not set!");
 		let mut cltb = String::from("clear_btn not set!");
 		let mut ins = String::from("insert_num not set!");
@@ -47,7 +42,6 @@ impl Ui {
 		}
 		// generate the new ui struct
 		Ui {
-			nan_err: ne,
 			insert_num: ins,
 			convert_btn: cvtb,
 			clear_btn: cltb,
