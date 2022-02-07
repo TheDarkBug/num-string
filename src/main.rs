@@ -76,7 +76,7 @@ fn main() {
                         writeln!(
                             File::create(&x).expect(&format!("Failed to open {}: {0}", &x)),
                             "{}",
-                            convert(&digits, separate_nums(&user_input, &ui))
+                            convert(&digits, separate_nums(&mut user_input))
                         )
                         .expect(&format!("Failed to write to {}!", &x));
                         return;
@@ -86,7 +86,7 @@ fn main() {
                 None => {}
             }
         } else {
-            println!("{}", convert(&digits, separate_nums(&user_input, &ui)));
+            println!("{}", convert(&digits, separate_nums(&mut user_input)));
         }
     } else {
         #[cfg(not(target_os = "android"))]

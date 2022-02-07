@@ -35,8 +35,6 @@ hundreds 1 = "mila"
 hundreds 2 = "milioni"
 hundreds 3 = "miliardi"
 
-nan_err 0 = "Fra non penso che"
-nan_err 1 = "sia un numero"
 insert_num = "Inserisci un numero da convertire:"
 convert_btn = "Converti"
 clear_btn = "Cancella"

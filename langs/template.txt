@@ -35,8 +35,6 @@ hundreds 1 = ""
 hundreds 2 = ""
 hundreds 3 = ""
 
-nan_err 0 = ""
-nan_err 1 = ""
 insert_num = ""
 convert_btn = ""
 clear_btn = ""

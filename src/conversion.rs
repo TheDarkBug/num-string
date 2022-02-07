@@ -1,31 +1,29 @@
 use crate::interface::*;
-use std::fs::File;
-use std::io::Read;
 
 // converts a string to a u128
-fn str_u128(src: &String, err_msg: &[String; 2]) -> u128 {
-	return src
-		.parse::<u128>()
-		.expect(&format!("{}: \"{}\" {}", err_msg[0], src, err_msg[1]));
+fn str_u128(src: &String) -> u128 {
+	return src.parse::<u128>().expect("Unreachable");
 }
 
 // splits the string every 3 characters from right to left
-pub fn separate_nums(src: &String, ui: &Ui) -> Vec<u128> {
+pub fn separate_nums(src: &str) -> Vec<u128> {
+	// remove non-number characters
+	let dsrc = src.replace(|c| c > '9' || c < '0', "");
 	// vector to hold the numbers
 	let mut numv: Vec<u128> = Vec::new();
-	let src_len = src.len();
+	let src_len = dsrc.len();
 	// temporary string to hold the current number
 	let mut num_s = String::new();
 	for i in (0..src_len).rev() {
 		// put a single digit (actually a char that should contain a digit) in the temporary string
 		// put it in the string only if it is not a whitespace
-		let cur_ch = src.chars().rev().nth(i).unwrap();
+		let cur_ch = dsrc.chars().rev().nth(i).unwrap();
 		if !cur_ch.is_whitespace() {
 			num_s.push_str(&format!("{}", cur_ch));
 			// every 3 characters, push the string to the array and empty it
 			// but if a whitespace was found, do nothing
 			if i % 3 == 0 {
-				numv.push(str_u128(&num_s, &ui.nan_err));
+				numv.push(str_u128(&num_s));
 				num_s = String::new();
 			}
 		}
@@ -33,7 +31,7 @@ pub fn separate_nums(src: &String, ui: &Ui) -> Vec<u128> {
 	return numv;
 }
 
-pub fn convert(digits: &Digits, /* ui: &Ui,  */ numv: Vec<u128>) -> String {
+pub fn convert(digits: &Digits, numv: Vec<u128>) -> String {
 	// write "zero" only if the whole number is actually 0
 	if numv.len() == 1 && numv[0] == 0 {
 		return format!("{}", digits.ones[0]);
@@ -78,12 +76,4 @@ pub fn convert(digits: &Digits, /* ui: &Ui,  */ numv: Vec<u128>) -> String {
 		}
 	}
 	return result;
-}
-
-pub fn read_lang_file(name: String) -> String {
-	let mut file = File::open(name).expect("Failed to open file!");
-	let mut content = String::new();
-	file.read_to_string(&mut content)
-		.expect("Failed to read file!");
-	return content;
 }

@@ -1,4 +1,6 @@
 use sscanf::scanf;
+use std::fs::File;
+use std::io::Read;
 
 #[derive(Clone, Debug)]
 pub struct Ui {
@@ -90,4 +92,12 @@ impl Digits {
 			hundreds: h,
 		}
 	}
+}
+
+pub fn read_lang_file(name: String) -> String {
+	let mut file = File::open(name).expect("Failed to open file!");
+	let mut content = String::new();
+	file.read_to_string(&mut content)
+		.expect("Failed to read file!");
+	return content;
 }
