@@ -28,14 +28,9 @@ impl Ui {
 		let mut cltb = String::from("clear_btn not set!");
 		let mut ins = String::from("insert_num not set!");
 		for l in lines {
-			// search for the nan_err value
-			let ne_parsed = &scanf!(l, "nan_err {} = \"{}\"", usize, String);
-			// if it was found, put it in ne
-			if !(*ne_parsed).is_err() {
-				ne[ne_parsed.as_ref().unwrap().0] = ne_parsed.as_ref().unwrap().1.clone();
-			}
-			// same as before, but with insert_num
+			// search for the insert_num value
 			let ins_parsed = scanf!(l, "insert_num = \"{}\"", String);
+			// if it was found, put it in ne
 			if !ins_parsed.is_err() {
 				ins = ins_parsed.unwrap();
 			}
