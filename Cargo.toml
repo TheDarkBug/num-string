@@ -8,5 +8,7 @@ edition = "2021"
 [dependencies]
 sscanf = "*"
 getopts = "*"
-eframe = "*"
 clipboard = "*"
+
+[target.'cfg(not(target_os = "android"))'.dependencies]
+eframe = "*"

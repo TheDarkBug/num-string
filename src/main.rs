@@ -35,6 +35,7 @@ fn main() {
         // disable graphics on android
         graphics_enabled = false;
     }
+    #[cfg(not(target_os = "android"))]
     if matches.opt_present("no-graphics") {
         graphics_enabled = false;
     } else {

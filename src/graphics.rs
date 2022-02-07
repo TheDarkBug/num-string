@@ -2,11 +2,8 @@
 
 use crate::conversion;
 use crate::interface;
-#[cfg(not(target_os = "android"))]
 extern crate clipboard;
-#[cfg(not(target_os = "android"))]
 use clipboard::ClipboardContext;
-#[cfg(not(target_os = "android"))]
 use clipboard::ClipboardProvider;
 #[cfg(not(target_os = "android"))]
 use eframe::{egui, epi};
@@ -17,7 +14,6 @@ struct Gui {
 	input: String,
 	output: String,
 	checked: bool,
-	#[cfg(not(target_os = "android"))]
 	clipb: ClipboardContext,
 }
 
@@ -29,7 +25,6 @@ impl Gui {
 			input: String::new(),
 			output: String::new(),
 			checked: false,
-			#[cfg(not(target_os = "android"))]
 			clipb: ClipboardProvider::new().unwrap(),
 		}
 	}
