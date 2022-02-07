@@ -33,16 +33,13 @@ pub fn separate_nums(src: &String, ui: &Ui) -> Vec<u128> {
 	return numv;
 }
 
-pub fn convert(digits: &Digits, ui: &Ui, numv: Vec<u128>) -> String {
+pub fn convert(digits: &Digits, /* ui: &Ui,  */ numv: Vec<u128>) -> String {
 	// write "zero" only if the whole number is actually 0
 	if numv.len() == 1 && numv[0] == 0 {
 		return format!("{}", digits.ones[0]);
 	}
 	let mut result = String::new();
 	let num_count = numv.len();
-	if num_count >= 4 {
-		eprintln!("\x1b[0;33m{}\x1b[0m", ui.out_range_err);
-	}
 	// convert all the digits
 	for i in 0..num_count {
 		// first digit

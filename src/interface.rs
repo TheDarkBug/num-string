@@ -2,9 +2,10 @@ use sscanf::scanf;
 
 #[derive(Clone, Debug)]
 pub struct Ui {
-	pub out_range_err: String,
 	pub nan_err: [String; 2],
 	pub insert_num: String,
+	pub convert_btn: String,
+	pub clear_btn: String,
 }
 
 #[derive(Clone, Debug)]
@@ -17,21 +18,17 @@ pub struct Digits {
 impl Ui {
 	pub fn new(src: &str) -> Self {
 		let lines = src.split("\n");
-		let mut ore = String::from("out_range_err not set!");
 		let mut ne = [
 			String::from("nan_err 0 not set!"),
 			String::from("nan_err 1 not set!"),
 		];
+		let mut cvtb = String::from("convert_btn not set!");
+		let mut cltb = String::from("clear_btn not set!");
 		let mut ins = String::from("insert_num not set!");
 		for l in lines {
-			// search for the out_range_err value
-			let ore_parsed = scanf!(l, "out_range_err = \"{}\"", String);
-			// if it was found, put it in ore
-			if !ore_parsed.is_err() {
-				ore = ore_parsed.unwrap();
-			}
-			// same as before, but with nan_err
+			// search for the nan_err value
 			let ne_parsed = &scanf!(l, "nan_err {} = \"{}\"", usize, String);
+			// if it was found, put it in ne
 			if !(*ne_parsed).is_err() {
 				ne[ne_parsed.as_ref().unwrap().0] = ne_parsed.as_ref().unwrap().1.clone();
 			}
@@ -40,12 +37,23 @@ impl Ui {
 			if !ins_parsed.is_err() {
 				ins = ins_parsed.unwrap();
 			}
+			// same as before, but with convert_btn
+			let cvtb_parsed = scanf!(l, "convert_btn = \"{}\"", String);
+			if !cvtb_parsed.is_err() {
+				cvtb = cvtb_parsed.unwrap();
+			}
+			// same as before, but with clear_btn
+			let cltb_parsed = scanf!(l, "clear_btn = \"{}\"", String);
+			if !cltb_parsed.is_err() {
+				cltb = cltb_parsed.unwrap();
+			}
 		}
 		// generate the new ui struct
 		Ui {
-			out_range_err: ore,
 			nan_err: ne,
 			insert_num: ins,
+			convert_btn: cvtb,
+			clear_btn: cltb,
 		}
 	}
 }

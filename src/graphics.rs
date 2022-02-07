@@ -39,14 +39,13 @@ impl epi::App for Gui {
 	fn update(&mut self, ctx: &egui::CtxRef, _frame: &epi::Frame) {
 		egui::CentralPanel::default().show(ctx, |ui| {
 			ui.text_edit_singleline(&mut self.input);
-			if ui.button("Convert").clicked() {
+			if ui.button(&self.ui.convert_btn).clicked() {
 				self.output = conversion::convert(
 					&self.digits,
-					&self.ui,
 					conversion::separate_nums(&self.input, &self.ui),
 				);
 			}
-			if ui.button("Clear").clicked() {
+			if ui.button(&self.ui.clear_btn).clicked() {
 				self.input = String::new();
 				self.output = String::new();
 			}
