@@ -11,6 +11,7 @@ mod graphics;
 #[derive(Parser, Debug)]
 #[clap(author = "Adriano Oliviero (TheDarkBug)", version = "2.1", about = "A program that write numbers as they are pronounced", long_about = None)]
 struct Args {
+    #[cfg(not(target_os = "android"))]
     /// Disable gtk gui.
     #[clap(short = 'g', long)]
     nogui: bool,
@@ -25,17 +26,22 @@ struct Args {
 }
 
 fn main() {
+    #[cfg(not(target_os = "android"))]
     let args = Args::parse();
+    #[cfg(target_os = "android")]
+    let mut args = Args::parse();
+
     // loading the language
     let lang = read_lang_file(args.lang);
     let ui = Ui::new(&lang);
     let digits = Digits::new(&lang);
 
+    // disable gui on android
     #[cfg(target_os = "android")]
     {
-        // disable graphics on android
-        args.nogui = false;
+        args.nogui = true;
     }
+
     // run tui version only if gui disabled
     if args.nogui {
         // get user input
