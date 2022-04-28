@@ -1,11 +1,9 @@
 [package]
-name = "num-string"
-version = "2.1.0"
 edition = "2021"
+name = "numstr"
+version = "0.1.0"
 
-[lib]
-name = "num_string"
-crate-type = ["dylib"]
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 clap = {version = "3.1.12", features = ["derive"]}
@@ -14,7 +12,3 @@ clipboard = "0.5.0"
 
 [target.'cfg(not(target_os = "android"))'.dependencies]
 gtk4 = "0.4.7"
-
-[target.'cfg(target_os="android")'.dependencies]
-jni = { version = "0.5", default-features = false }
-

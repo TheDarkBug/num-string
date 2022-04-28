@@ -1,0 +1,15 @@
+[target.aarch64-linux-android]
+linker = "/home/adri/Android/Sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android32-clang"
+ar = "/home/adri/Android/Sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android32-ar"
+# target-dir = "../app/src/main/jniLibs/arm64-v8a"
+
+[target.armv7-linux-androideabi]
+linker = "/home/adri/Android/Sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/linux-x86_64/bin/arm-linux-androideabi-clang"
+ar = "/home/adri/Android/Sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/linux-x86_64/bin/arm-linux-androideabi-ar"
+# target-dir = "../app/src/main/jniLibs/armeabi-v7a"
+
+[target.i686-linux-android]
+linker = "/home/adri/Android/Sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/linux-x86_64/bin/i686-linux-android-clang"
+ar = "/home/adri/Android/Sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/linux-x86_64/bin/i686-linux-android-ar"
+# target-dir = "../app/src/main/jniLibs/x86"
+
