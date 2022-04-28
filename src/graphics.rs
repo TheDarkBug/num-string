@@ -1,97 +1,105 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")] // hide console window on Windows in release
 use crate::conversion;
 use crate::interface;
-extern crate clipboard;
-use clipboard::ClipboardContext;
-use clipboard::ClipboardProvider;
+use clipboard::{ClipboardContext, ClipboardProvider};
 #[cfg(not(target_os = "android"))] // graphics disabled on android
-use eframe::{egui, epi};
-
-struct Gui {
-	ui: interface::Ui,
-	digits: interface::Digits,
-	input: String,
-	output: String,
-	// clipboard handle to copy the output
-	clipb: ClipboardContext,
-}
-
-impl Gui {
-	fn new(uip: interface::Ui, digitsp: interface::Digits) -> Gui {
-		// initialize the gui struct
-		Gui {
-			ui: uip,
-			digits: digitsp,
-			input: String::new(),
-			output: String::new(),
-			clipb: ClipboardProvider::new().unwrap(),
-		}
-	}
-}
+use gtk::prelude::*;
+use gtk4 as gtk;
 
 #[cfg(not(target_os = "android"))]
-impl epi::App for Gui {
-	fn name(&self) -> &str {
-		"Num String"
-	}
+pub fn run(ui: interface::Ui, digitsarg: interface::Digits) {
+    let app = gtk::Application::builder()
+        .application_id("com.tdb.numstring")
+        .build();
+    app.connect_activate(move |app| {
+        // widgets
+        let convert_button = gtk::Button::with_label(&ui.convert_btn);
+        let clear_button = gtk::Button::with_label(&ui.clear_btn);
+        let copy_button = gtk::Button::with_label(&ui.copy_btn);
+        let inputbox = gtk::Entry::new();
+        let outputbox = gtk::TextView::new();
 
-	fn update(&mut self, ctx: &egui::CtxRef, _frame: &epi::Frame) {
-		egui::CentralPanel::default().show(ctx, |ui| {
-			ui.text_edit_multiline(&mut self.input);
-			// if input exists
-			let input_len = self.input.len();
-			if input_len > 0 {
-				// get the last char
-				let last_chr = self.input.chars().nth(input_len - 1);
-				if last_chr != None {
-					// if it is a \n (if return was pressed)
-					if last_chr.unwrap() == '\n' {
-						// convert the input
-						self.output = conversion::convert(
-							&self.digits,
-							conversion::separate_nums(&mut self.input),
-						);
-						// remove the \n
-						self.input.remove(input_len - 1);
-					}
-				}
-			}
-			// convert button
-			if ui.button(&self.ui.convert_btn).clicked() {
-				self.output =
-					conversion::convert(&self.digits, conversion::separate_nums(&mut self.input));
-			}
-			// clear button
-			if ui.button(&self.ui.clear_btn).clicked() {
-				self.input = String::new();
-				self.output = String::new();
-			}
-			// scrollable output (if the output is too big to be shown in one window)
-			egui::ScrollArea::vertical().show(ui, |ui| {
-				// copy the output to clipboard if the output widget is clicked
-				if ui.selectable_label(false, &self.output).clicked() {
-					self.clipb.set_contents(self.output.clone()).unwrap();
-				}
-			});
-		});
-	}
-}
+        // scrolled view for the output
+        let scrolled_window = gtk::ScrolledWindow::new();
+        scrolled_window.set_child(Some(&outputbox));
+        scrolled_window.set_kinetic_scrolling(true);
+        scrolled_window.set_height_request(500);
 
-#[cfg(not(target_os = "android"))]
-pub fn run(ui: interface::Ui, digits: interface::Digits) {
-	eframe::run_native(
-		Box::new(Gui::new(ui, digits)),
-		eframe::NativeOptions {
-			// window size
-			initial_window_size: Some(egui::Vec2::new(400., 600.)),
-			resizable: false,
-			// icon, for windows
-			icon_data: Some(eframe::epi::IconData {
-				rgba: vec![0, 1, 2, 3],
-				width: 128,
-				height: 128,
-			}),
-			..eframe::NativeOptions::default()
-		},
-	);
+        // window structure
+        let window = gtk::ApplicationWindow::builder()
+            .application(app)
+            .default_width(400)
+            .default_height(600)
+            .resizable(false)
+            .title("Num String")
+            .build();
+
+        // box to store all the widgets
+        let gtk_box = gtk::Box::new(gtk::Orientation::Vertical, 10);
+        gtk_box.append(&inputbox);
+        gtk_box.append(&convert_button);
+        gtk_box.append(&copy_button);
+        gtk_box.append(&clear_button);
+        gtk_box.append(&scrolled_window);
+
+        window.set_child(Some(&gtk_box));
+        window.show();
+
+        // workaround to have shared memory between the two scopes
+        let inputbox_buf = inputbox.buffer();
+        let outputbox_buf = outputbox.buffer();
+        let digits = digitsarg.clone();
+
+        // convert if enter is pressed
+        inputbox.connect_activate(move |_| {
+            let mut input = inputbox_buf.text().to_string();
+            outputbox_buf.set_text(
+                &conversion::convert(&digits, conversion::separate_nums(&mut input)).to_string(),
+            );
+        });
+
+        // disable output editing
+        outputbox.set_editable(false);
+        outputbox.set_wrap_mode(gtk::WrapMode::Word);
+        // outputbox.set_can_focus(false);
+        outputbox.set_cursor_visible(false);
+        // outputbox.connect("button-press-event", true, |_| {
+        // 	Some(0.to_value())
+        // });
+
+        // continuing workaround
+        let inputbox_buf = inputbox.buffer();
+        let outputbox_buf = outputbox.buffer();
+        let digits = digitsarg.clone();
+
+        // convert on click
+        convert_button.connect_clicked(move |_| {
+            let mut input = inputbox_buf.text().to_string();
+            outputbox_buf.set_text(
+                &conversion::convert(&digits, conversion::separate_nums(&mut input)).to_string(),
+            );
+        });
+
+        // continuing workaround
+        let inputbox_buf = inputbox.buffer();
+        let outputbox_buf = outputbox.buffer();
+
+        // clear on click
+        clear_button.connect_clicked(move |_| {
+            inputbox_buf.set_text("");
+            outputbox_buf.set_text("");
+        });
+
+        // copy on click
+        let outputbox_buf = outputbox.buffer();
+        copy_button.connect_clicked(move |_| {
+            let mut clipb: ClipboardContext = ClipboardProvider::new().unwrap();
+            let text_start = outputbox_buf.start_iter();
+            let text_end = outputbox_buf.end_iter();
+            clipb
+                .set_contents(outputbox_buf.text(&text_start, &text_end, true).to_string())
+                .unwrap();
+        });
+    });
+    app.run_with_args(&[""]);
 }

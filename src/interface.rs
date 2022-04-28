@@ -7,6 +7,7 @@ pub struct Ui {
 	pub insert_num: String,
 	pub convert_btn: String,
 	pub clear_btn: String,
+	pub copy_btn: String,
 }
 
 #[derive(Clone, Debug)]
@@ -21,6 +22,7 @@ impl Ui {
 		let lines = src.split("\n");
 		let mut cvtb = String::from("convert_btn not set!");
 		let mut cltb = String::from("clear_btn not set!");
+		let mut cptb = String::from("copy_btn not set!");
 		let mut ins = String::from("insert_num not set!");
 		for l in lines {
 			// search for the insert_num value
@@ -39,12 +41,18 @@ impl Ui {
 			if !cltb_parsed.is_err() {
 				cltb = cltb_parsed.unwrap();
 			}
+			// same as before, but with clear_btn
+			let cptb_parsed = scanf!(l, "copy_btn = \"{}\"", String);
+			if !cptb_parsed.is_err() {
+				cptb = cptb_parsed.unwrap();
+			}
 		}
 		// generate the new ui struct
 		Ui {
 			insert_num: ins,
 			convert_btn: cvtb,
 			clear_btn: cltb,
+			copy_btn: cptb,
 		}
 	}
 }
@@ -84,9 +92,9 @@ impl Digits {
 }
 
 pub fn read_lang_file(name: String) -> String {
-	let mut file = File::open(name).expect("Failed to open file!");
+	let mut file = File::open(&name).expect(&format!("Failed to open \"{}\"!", &name));
 	let mut content = String::new();
 	file.read_to_string(&mut content)
-		.expect("Failed to read file!");
+		.expect(&format!("Failed to read \"{}\"!", &name));
 	return content;
 }
