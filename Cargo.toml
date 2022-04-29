@@ -17,4 +17,6 @@ gtk4 = "0.4.7"
 
 [target.'cfg(target_os="android")'.dependencies]
 jni = { version = "0.5", default-features = false }
+ndk = "0.6.0"
+ndk-sys = "0.3.0"
 

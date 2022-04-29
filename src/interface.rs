@@ -1,5 +1,7 @@
 use sscanf::scanf;
+#[cfg(not(target_os = "android"))]
 use std::fs::File;
+#[cfg(not(target_os = "android"))]
 use std::io::Read;
 
 #[derive(Clone, Debug)]
@@ -17,6 +19,7 @@ pub struct Digits {
 	pub hundreds: [String; 4],
 }
 
+#[cfg(not(target_os = "android"))]
 impl Ui {
 	pub fn new(src: &str) -> Self {
 		let lines = src.split("\n");
@@ -91,6 +94,7 @@ impl Digits {
 	}
 }
 
+#[cfg(not(target_os = "android"))]
 pub fn read_lang_file(name: String) -> String {
 	let mut file = File::open(&name).expect(&format!("Failed to open \"{}\"!", &name));
 	let mut content = String::new();
