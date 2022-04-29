@@ -1,4 +1,6 @@
+#[cfg(target_os="android")]
 mod conversion;
+#[cfg(target_os="android")]
 mod interface;
 
 #[cfg(target_os="android")]
