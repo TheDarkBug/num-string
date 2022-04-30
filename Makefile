@@ -6,7 +6,6 @@ GENERATED_X86 = target/i686-linux-android/debug/libnum_string.so
 all: dirs arm64-v8a armv7-v7a x86
 
 dirs:
-	rm -r ../app/src/main/jniLibs
 	mkdir -p ../app/src/main/jniLibs/{arm64-v8a,armeabi-v7a,x86}
 
 arm64-v8a:
@@ -21,4 +20,8 @@ x86:
 	ANDROID_NDK_HOME=$(ANDROID_NDK_HOME) cargo +nightly ndk -t x86 build -Zbuild-std
 	cp $(GENERATED_X86) ../app/src/main/jniLibs/x86
 
-
+setup:
+	rustup toolchain add nightly-x86_64-unknown-linux-gnu
+	rustup component add rust-src --toolchain nightly-x86_64-unknown-linux-gnu
+	rustup target add --toolchain nightly aarch64-linux-android armv7-linux-androideabi i686-linux-android
+	cargo install cargo-ndk
