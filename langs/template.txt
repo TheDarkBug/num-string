@@ -39,3 +39,6 @@ insert_num = ""
 convert_btn = ""
 clear_btn = ""
 copy_btn = ""
+
+[language-specific]
+"" = ""

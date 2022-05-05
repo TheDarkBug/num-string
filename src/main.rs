@@ -16,22 +16,23 @@ use interface::*;
 mod graphics;
 
 #[cfg(not(target_os = "android"))]
-# [derive(Parser, Debug)]
+#[derive(Parser, Debug)]
 # [clap(author = "Adriano Oliviero (TheDarkBug)", version = "2.1", about = "A program that write numbers as they are pronounced", long_about = None)]
 struct Args {
     /// Disable gtk gui.
-# [clap(short = 'g', long)]
+    #[clap(short = 'g', long)]
     nogui: bool,
     /// Change language.
-    # [clap(short, long, default_value_t = String::from("langs/english.txt"))]
+    #[clap(short, long, default_value_t = String::from("langs/english.txt"))]
     lang: String,
     /// Set output file.
-    # [clap(short, long, default_value_t = String::from("stdout"))]
+    #[clap(short, long, default_value_t = String::from("stdout"))]
     out: String,
 }
 
 fn main() {
-    # [cfg(not(target_os = "android"))] {
+    #[cfg(not(target_os = "android"))]
+    {
         let args = Args::parse();
 
         // loading the language
@@ -56,7 +57,7 @@ fn main() {
                     "{}",
                     convert(&digits, separate_nums(&mut user_input))
                 )
-                    .expect(&format!("Failed to write to {}!", &args.out));
+                .expect(&format!("Failed to write to {}!", &args.out));
                 return;
             }
         } else {

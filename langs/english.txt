@@ -39,3 +39,5 @@ insert_num = "Insert a number to convert:"
 convert_btn = "Convert"
 clear_btn = "Clear"
 copy_btn = "Copy"
+
+[language-specific]
