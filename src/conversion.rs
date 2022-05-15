@@ -39,7 +39,7 @@ pub fn separate_nums(src: &str) -> Vec<u128> {
         }
     }
     // remove initial zeros
-    while numv[0] == 0 && numv.len() > 1 {
+    while numv.len() > 1 && numv[0] == 0 {
         numv.remove(0);
     }
     return numv;
