@@ -1,8 +1,7 @@
 document.addEventListener('contextmenu', event => event.preventDefault())
 
 function getLang() {
-	const invoke = window.__TAURI__.invoke
-	invoke('get_ui_btns').then((res) => {
+	window.__TAURI__.invoke('get_ui_btns').then((res) => {
 		document.getElementById('insert_num').placeholder = res[0].replace(/:/g, '')
 		document.getElementById('convert_btn').textContent = res[1]
 		document.getElementById('clear_btn').textContent = res[2]
@@ -11,15 +10,13 @@ function getLang() {
 }
 
 function convertInput() {
-	const invoke = window.__TAURI__.invoke
-	invoke('convert', { input: document.getElementById('insert_num').value }).then((res) => {
+	window.__TAURI__.invoke('convert', { input: document.getElementById('insert_num').value }).then((res) => {
 		document.getElementById('output').textContent = res
 	})
 }
 
 function copyOutput() {
-	const writeText = window.__TAURI__.clipboard.writeText
-	writeText(document.getElementById('output').textContent)
+	window.__TAURI__.clipboard.writeText(document.getElementById('output').textContent)
 }
 
 function clearIO() {
