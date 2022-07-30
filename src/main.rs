@@ -23,7 +23,7 @@ struct Args {
     #[clap(short = 'g', long)]
     nogui: bool,
     /// Change language.
-    #[clap(short, long, default_value_t = String::from("langs/english.txt"))]
+    #[clap(short, long, default_value_t = String::from("english"))]
     lang: String,
     /// Set output file.
     #[clap(short, long, default_value_t = String::from("stdout"))]

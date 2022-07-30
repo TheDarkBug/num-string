@@ -1,3 +1,5 @@
+lang_name = ""
+
 ones 0 = ""
 ones 1 = ""
 ones 2 = ""

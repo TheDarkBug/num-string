@@ -1,9 +1,9 @@
 use serde::Serialize;
 use sscanf::scanf;
-#[cfg(not(target_os = "android"))]
-use std::fs::File;
-#[cfg(not(target_os = "android"))]
-use std::io::Read;
+// #[cfg(not(target_os = "android"))]
+// use std::fs::File;
+// #[cfg(not(target_os = "android"))]
+// use std::io::Read;
 
 #[derive(Clone, Debug, Serialize)]
 pub struct Ui {
@@ -118,9 +118,14 @@ impl Digits {
 
 #[cfg(not(target_os = "android"))]
 pub fn read_lang_file(name: String) -> String {
-    let mut file = File::open(&name).expect(&format!("Failed to open \"{}\"!", &name));
-    let mut content = String::new();
-    file.read_to_string(&mut content)
-        .expect(&format!("Failed to read \"{}\"!", &name));
-    return content;
+    let langs = vec![
+        include_str!("langs/italian.txt"),
+        include_str!("langs/english.txt"),
+    ];
+    for l in langs {
+        if l.contains(&name) {
+            return l.to_string();
+        }
+    }
+    panic!("{} is not a valid language!", name)
 }

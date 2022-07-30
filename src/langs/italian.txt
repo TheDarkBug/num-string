@@ -1,3 +1,5 @@
+lang_name = "italian"
+
 ones 0 = "zero"
 ones 1 = "uno"
 ones 2 = "due"
