@@ -1,10 +1,11 @@
+use serde::Serialize;
 use sscanf::scanf;
 #[cfg(not(target_os = "android"))]
 use std::fs::File;
 #[cfg(not(target_os = "android"))]
 use std::io::Read;
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Serialize)]
 pub struct Ui {
     pub insert_num: String,
     pub convert_btn: String,
@@ -12,7 +13,7 @@ pub struct Ui {
     pub copy_btn: String,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Serialize)]
 pub struct Digits {
     pub ones: [String; 20],
     pub tens: [String; 10],

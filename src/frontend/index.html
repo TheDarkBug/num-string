@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Num String</title>
+	<script src="main.js"></script>
+	<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+	<div id="container">
+		<input placeholder="Insert a number to convert" id="insert_num"
+			oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+		<br>
+		<button id="convert_btn" onclick="convertInput()">Convert</button>
+		<br>
+		<button id="copy_btn" onclick="copyOutput()">Copy</button>
+		<br>
+		<button id="clear_btn" onclick="clearIO()">Clear</button>
+	</div>
+	<div id="output-container">
+		<p id="output">
+		<p>
+	</div>
+	<script>getLang()</script>
+</body>
+
+</html>
