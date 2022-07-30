@@ -1,9 +1,5 @@
 use serde::Serialize;
 use sscanf::scanf;
-// #[cfg(not(target_os = "android"))]
-// use std::fs::File;
-// #[cfg(not(target_os = "android"))]
-// use std::io::Read;
 
 #[derive(Clone, Debug, Serialize)]
 pub struct Ui {

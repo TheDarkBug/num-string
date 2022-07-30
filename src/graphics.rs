@@ -1,11 +1,6 @@
-#![cfg_attr(
-    all(not(debug_assertions), target_os = "windows"),
-    windows_subsystem = "windows"
-)] // hide console window on Windows in release
 use crate::conversion;
 use crate::interface;
 use tauri::State;
-// use clipboard::{ClipboardContext, ClipboardProvider};
 
 #[tauri::command]
 fn get_ui_btns(ui_vec: State<Vec<String>>) -> Vec<String> {

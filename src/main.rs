@@ -1,3 +1,4 @@
+#![windows_subsystem = "windows"] // hide console in windows
 #[cfg(not(target_os = "android"))]
 use clap::Parser;
 #[cfg(not(target_os = "android"))]
@@ -17,7 +18,7 @@ mod graphics;
 
 #[cfg(not(target_os = "android"))]
 #[derive(Parser, Debug)]
-# [clap(author = "Adriano Oliviero (TheDarkBug)", version = "2.1", about = "A program that write numbers as they are pronounced", long_about = None)]
+#[clap(author = "Adriano Oliviero (TheDarkBug)", version = "2.1", about = "A program that write numbers as they are pronounced", long_about = None)]
 struct Args {
     /// Disable gtk gui.
     #[clap(short = 'g', long)]
