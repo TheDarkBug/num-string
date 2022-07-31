@@ -120,7 +120,7 @@ pub fn read_lang_file(name: String) -> String {
     ];
     for l in langs {
         if l.contains(&name) {
-            return l.to_string();
+            return l.to_string().replace("\r", "");
         }
     }
     panic!("{} is not a valid language!", name)
