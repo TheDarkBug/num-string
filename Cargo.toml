@@ -4,7 +4,7 @@ edition = "2021"
 license = "GPL-3"
 name = "num-string"
 repository = "https://github.com/TheDarkBug/num-string"
-version = "2.1.0"
+version = "3.0.0"
 
 [lib]
 crate-type = ["dylib"]
