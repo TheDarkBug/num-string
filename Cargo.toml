@@ -21,7 +21,8 @@ sscanf = "0.3.1"
 tauri-build = {version = "1.0.4"}
 
 [target.'cfg(not(target_os = "android"))'.dependencies]
-tauri = {version = "1.0.5", features = ["api-all"]}
+tauri = "1.0.5"
+tauri-macros = "1.0.3"
 
 [features]
 default = [ "custom-protocol" ]

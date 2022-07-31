@@ -54,8 +54,7 @@ button:active {
 	position: absolute;
 	right: 0px;
 	top: 0px;
-	translate: 50% -50%;
-	rotate: -45deg;
+	transform: translate(50%, -50%) rotate(-45deg);
 	cursor: pointer;
 	width: 30px;
 	height: 30px;
