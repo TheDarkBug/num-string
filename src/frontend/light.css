@@ -1,37 +1,14 @@
 * {
-	user-select: none;
-	font-size: 16px;
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-	transition-duration: 1s;
 	color: #fafafa;
-}
-
-body,
-html {
-	overflow: hidden;
 }
 
 body {
 	background-color: #fafafa;
 }
 
-#container {
-	text-align: center;
-}
-
 button {
 	background-color: #006699;
-	border: none;
-	border-radius: 10px;
-	padding: 10px;
-	margin: 3px;
-	cursor: pointer;
-	width: 90%;
-	position: inherit;
 	box-shadow: 3px 3px 5px rgb(77, 77, 77);
-	transition-duration: 0.2s;
 }
 
 button:hover {
@@ -40,40 +17,25 @@ button:hover {
 
 button:active {
 	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0);
-	scale: 0.99;
 }
 
 #insert_num {
 	color: black;
 	border: 3px solid #006699;
-	border-radius: 7px;
-	padding: 5px;
-	margin: 5px;
-	width: 90%;
 }
 
 #output-container {
-	margin: 20px;
-	width: 90%;
-	text-align: center;
 	border: 3px solid #006699;
-	border-radius: 7px;
+}
+
+#output-container.empty {
+	border: none;
 }
 
 #output {
 	color: black;
-	padding: 0px 20px 0px 20px;
-	text-align: justify;
 }
 
 .theme-toggle {
 	background-color: black;
-	position: absolute;
-	right: 0px;
-	top: 0px;
-	translate: 50% -50%;
-	rotate: -45deg;
-	cursor: pointer;
-	width: 30px;
-	height: 30px;
 }

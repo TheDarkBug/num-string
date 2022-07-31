@@ -10,7 +10,10 @@ function getLang() {
 
 function convertInput() {
 	window.__TAURI__.invoke('convert', { input: document.getElementById('insert_num').value }).then((res) => {
-		document.getElementById('output').textContent = res
+		if (res != '') {
+			document.getElementById('output').textContent = res
+			document.getElementById('output-container').classList.remove('empty')
+		}
 	})
 }
 
@@ -21,11 +24,12 @@ function copyOutput() {
 function clearIO() {
 	document.getElementById('insert_num').value = ''
 	document.getElementById('output').textContent = ''
+	document.getElementById('output-container').classList.add('empty')
 }
 
 async function toggleDark(doSleep) {
 	const sleep = ms => new Promise(r => setTimeout(r, ms))
-	const delay = doSleep ? 300 : 0
+	const delay = doSleep ? 200 : 0
 	document.querySelector('.theme-toggle').classList.toggle('dark')
 	document.querySelector('body').classList.toggle('dark')
 	await sleep(delay)

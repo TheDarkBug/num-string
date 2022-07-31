@@ -1,0 +1,62 @@
+* {
+	user-select: none;
+	font-size: 16px;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	transition-duration: 1s;
+}
+
+body,
+html {
+	overflow: hidden;
+}
+
+#container {
+	text-align: center;
+}
+
+button {
+	border: none;
+	border-radius: 10px;
+	padding: 10px;
+	margin: 3px;
+	cursor: pointer;
+	width: 90%;
+	position: inherit;
+	transition-duration: 0.2s;
+}
+
+button:active {
+	scale: 0.99;
+}
+
+#insert_num {
+	border-radius: 7px;
+	padding: 5px;
+	margin: 5px;
+	width: 90%;
+}
+
+#output-container {
+	margin: 20px;
+	width: 90%;
+	text-align: center;
+	border-radius: 7px;
+}
+
+#output {
+	padding: 0px 20px 0px 20px;
+	text-align: justify;
+}
+
+.theme-toggle {
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	translate: 50% -50%;
+	rotate: -45deg;
+	cursor: pointer;
+	width: 30px;
+	height: 30px;
+}

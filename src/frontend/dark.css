@@ -26,6 +26,10 @@ button:active.dark {
 	border: 3px solid #076678;
 }
 
+#output-container.empty {
+	border: none;
+}
+
 #output.dark {
 	color: #dfbf8e;
 }
