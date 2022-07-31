@@ -1,4 +1,3 @@
-document.addEventListener('contextmenu', event => event.preventDefault())
 
 function getLang() {
 	window.__TAURI__.invoke('get_ui_btns').then((res) => {
@@ -24,19 +23,20 @@ function clearIO() {
 	document.getElementById('output').textContent = ''
 }
 
-async function toggleDark() {
+async function toggleDark(doSleep) {
 	const sleep = ms => new Promise(r => setTimeout(r, ms))
+	const delay = doSleep ? 300 : 0
 	document.querySelector('.theme-toggle').classList.toggle('dark')
 	document.querySelector('body').classList.toggle('dark')
-	await sleep(300)
+	await sleep(delay)
 	document.querySelector('#insert_num').classList.toggle('dark')
-	await sleep(300)
+	await sleep(delay)
 	document.querySelector('#convert_btn').classList.toggle('dark')
-	await sleep(300)
+	await sleep(delay)
 	document.querySelector('#copy_btn').classList.toggle('dark')
-	await sleep(300)
+	await sleep(delay)
 	document.querySelector('#clear_btn').classList.toggle('dark')
-	await sleep(300)
+	await sleep(delay)
 	document.querySelector('#output-container').classList.toggle('dark')
 	document.querySelector('#output').classList.toggle('dark')
 }
