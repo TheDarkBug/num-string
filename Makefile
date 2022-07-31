@@ -17,8 +17,8 @@ armv7-v7a:
 	cp $(GENERATED_V7A) ../jniLibs/armeabi-v7a
 
 langs:
-	cp langs/english.txt ../assets/langs
-	cp langs/italian.txt ../assets/langs
+	cp src/langs/english.txt ../assets/langs
+	cp src/langs/italian.txt ../assets/langs
 
 setup:
 	rustup toolchain add nightly-x86_64-unknown-linux-gnu
