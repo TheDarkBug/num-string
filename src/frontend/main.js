@@ -23,3 +23,20 @@ function clearIO() {
 	document.getElementById('insert_num').value = ''
 	document.getElementById('output').textContent = ''
 }
+
+async function toggleDark() {
+	const sleep = ms => new Promise(r => setTimeout(r, ms))
+	document.querySelector('.theme-toggle').classList.toggle('dark')
+	document.querySelector('body').classList.toggle('dark')
+	await sleep(300)
+	document.querySelector('#insert_num').classList.toggle('dark')
+	await sleep(300)
+	document.querySelector('#convert_btn').classList.toggle('dark')
+	await sleep(300)
+	document.querySelector('#copy_btn').classList.toggle('dark')
+	await sleep(300)
+	document.querySelector('#clear_btn').classList.toggle('dark')
+	await sleep(300)
+	document.querySelector('#output-container').classList.toggle('dark')
+	document.querySelector('#output').classList.toggle('dark')
+}

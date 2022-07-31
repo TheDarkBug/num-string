@@ -1,0 +1,35 @@
+body.dark {
+	background-color: #282828;
+}
+
+button.dark {
+	background-color: #076678;
+	color: #dfbf8e;
+	box-shadow: 3px 3px 5px #1d2021;
+}
+
+button:hover.dark {
+	background-color: #077678;
+}
+
+button:active.dark {
+	box-shadow: none;
+}
+
+#insert_num.dark {
+	background-color: #282828;
+	color: #dfbf8e;
+	border: 3px solid #076678;
+}
+
+#output-container.dark {
+	border: 3px solid #076678;
+}
+
+#output.dark {
+	color: #dfbf8e;
+}
+
+.theme-toggle.dark {
+	background-color: #dfbf8e;
+}
