@@ -42,13 +42,16 @@ button:active {
 #output-container {
 	margin: 20px;
 	width: 90%;
+	height: 370px;
 	text-align: center;
 	border-radius: 7px;
+	overflow-y: scroll;
 }
 
 #output {
 	padding: 0px 20px 0px 20px;
 	text-align: justify;
+	word-wrap: break-word;
 }
 
 .theme-toggle {

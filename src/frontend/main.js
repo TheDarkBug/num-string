@@ -32,6 +32,7 @@ async function toggleDark(doSleep) {
 	const delay = doSleep ? 200 : 0
 	document.querySelector('.theme-toggle').classList.toggle('dark')
 	document.querySelector('body').classList.toggle('dark')
+	document.querySelector('#output').classList.toggle('dark')
 	await sleep(delay)
 	document.querySelector('#insert_num').classList.toggle('dark')
 	await sleep(delay)
@@ -42,5 +43,4 @@ async function toggleDark(doSleep) {
 	document.querySelector('#clear_btn').classList.toggle('dark')
 	await sleep(delay)
 	document.querySelector('#output-container').classList.toggle('dark')
-	document.querySelector('#output').classList.toggle('dark')
 }
